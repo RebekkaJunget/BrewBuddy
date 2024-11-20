@@ -1,0 +1,82 @@
+﻿@page
+@model CoffieMachinesModel
+
+<h1>Kaffemaskiner</h1>
+
+
+
+<!--Tilføjer maskiner -->
+<form method="post">
+    <h2>Tilføj ny kaffemaskine</h2>
+    <input asp-for="NewMachine.Name" placeholder="Navn" />
+    <input asp-for="NewMachine.Location" placeholder="Lokation" />
+    <button type="submit">Tilføj</button>
+</form>
+
+<!-- Vis eksisterende kaffemaskiner -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Maskine ID</th>
+            <th scope="col">Navn</th>
+            <th scope="col">Lokation</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+        @foreach (var machine in Model.coffieMachines)
+        {
+            <tr>
+                <td>@machine.MachineId</td>
+                <td>@machine.Name</td>
+                <td>@machine.Location</td>
+            </tr>
+        <td>
+
+            <!--sletter maskiner -->
+            <form method="post" asp-page-handler="Delete">
+                <input type="hidden" name="machineId" value="@machine.MachineId" />
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
+        //updatering 20-11
+            <form method="post" asp-page-handler="Update">
+                <input type ="hidden" asp-for="@machine.MachineId" name="UpdatedMachine.MachinId" value="@machine.MachineId" />
+                <input asp-for="UpdatedMachine.Name" name="UpdatedMachine.Name" placeholder="New Name" value="@machine.Name" />
+                <input asp-for="UpdatedMachine.Location" name="UpdatedMachine.Location" placeholder="New Location" value="@machine.Location" />
+                <button type="submit" asp-page-handler="Update">Update</button>
+            </form>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+
+@*<h2>Tilføj Ny Kaffemaskine</h2>
+<form method="post">
+    <div>
+        <label for="Name">Navn</label>
+        <input type="text" id="Name" name="NewMachine.Name" required />
+    </div>
+    <div>
+        <label for="Location">Lokation</label>
+        <input type="text" id="Location" name="NewMachine.Location" required />
+    </div>
+    <button type="submit">Tilføj</button>
+</form>
+
+
+<!-- Tilføj en ny kaffemaskine -->
+@* <h2>Tilføj Ny Kaffemaskine</h2>
+<form method="post">
+    <div>
+        <label for="Name">Navn</label>
+        <input type="text" id="Name" name="Name" required />
+    </div>
+    <div>
+        <label for="Location">Lokation</label>
+        <input type="text" id="Location" name="Location" required />
+    </div>
+    <button type="submit">Tilføj</button>
+</form> *@
