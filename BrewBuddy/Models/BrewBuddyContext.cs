@@ -19,7 +19,7 @@ public partial class BrewBuddyContext : DbContext
 
     public virtual DbSet<MachineInfo> MachineInfos { get; set; }
 
-    public virtual DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<Tasks> Tasks { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -58,7 +58,7 @@ public partial class BrewBuddyContext : DbContext
                 .HasConstraintName("FK__MachineIn__UserI__2E1BDC42");
         });
 
-        modelBuilder.Entity<Task>(entity =>
+        modelBuilder.Entity<Tasks>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("PK__Tasks__7C6949B1D001C0CB");
 

@@ -3,7 +3,7 @@ using BrewBuddy.Models;
 
 namespace BrewBuddy.Repositories
 {
-    public class TaskRepository : IRepository<Task>
+    public class TaskRepository : IRepository<Tasks>
     {
         private readonly BrewBuddyContext _context;
 
@@ -12,7 +12,7 @@ namespace BrewBuddy.Repositories
             _context = context;
         }
 
-        public void Add(Models.Task task)
+        public void Add(Models.Tasks task)
         {
             _context.Tasks.Add(task); //her kan vi tilføje en ny task
             _context.SaveChanges(); //denne er vigtig for det er den der sørger for at gemme den nye task 
@@ -31,12 +31,12 @@ namespace BrewBuddy.Repositories
             }
         }
 
-        public List<Models.Task> GetAll()
+        public List<Models.Tasks> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Models.Task entity)
+        public void Update(Models.Tasks entity)
         {
             throw new NotImplementedException();
         }

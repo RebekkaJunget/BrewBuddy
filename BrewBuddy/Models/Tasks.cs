@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BrewBuddy.Models;
 
-public partial class Task
+public partial class Tasks
 {
     public int TaskId { get; set; }
 
