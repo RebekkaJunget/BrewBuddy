@@ -1,0 +1,73 @@
+﻿@page "{Id:int?}"
+@model BrewBuddy.Pages.Users.UpdateUserModel
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<hr class="my-5" />
+<h2 class="mb-4 text-center"><strong>Redigering af bruger</strong></h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+       <form method="post" class="mx-auto" style="max-width: 600px;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UpdateUser.UserId" />
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.FirstName" class="control-label"></label>
+                <input asp-for="UpdateUser.FirstName" class="form-control" />
+                <span asp-validation-for="UpdateUser.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.LastName" class="control-label"></label>
+                <input asp-for="UpdateUser.LastName" class="form-control" />
+                <span asp-validation-for="UpdateUser.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.PhoneNumber" class="control-label"></label>
+                <input asp-for="UpdateUser.PhoneNumber" class="form-control" />
+                <span asp-validation-for="UpdateUser.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.Role" class="control-label"></label>
+                <input asp-for="UpdateUser.Role" class="form-control" />
+                <span asp-validation-for="UpdateUser.Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.BirthDate" class="control-label"></label>
+                <input asp-for="UpdateUser.BirthDate" class="form-control" />
+                <span asp-validation-for="UpdateUser.BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.Email" class="control-label"></label>
+                <input asp-for="UpdateUser.Email" class="form-control" />
+                <span asp-validation-for="UpdateUser.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger"></span>
+                <label asp-for="UpdateUser.Password" class="control-label"></label>
+                <input asp-for="UpdateUser.Password" class="form-control" />
+                <span asp-validation-for="UpdateUser.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Users/Users">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

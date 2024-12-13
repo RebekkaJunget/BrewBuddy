@@ -1,9 +1,11 @@
 
 using BrewBuddy.Interface;
 using BrewBuddy.Models;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace BrewBuddy.Pages
@@ -19,6 +21,7 @@ namespace BrewBuddy.Pages
         [BindProperty]
         public User NewUser { get; set; } //og den her laver vi for at kunne oprette en ny maskine 
 
+       
         //Her genere vi en Bcrypt salt - ellers kunne vi skrive /*workFactor: 12*/ i stedet 
         string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
 
@@ -34,17 +37,46 @@ namespace BrewBuddy.Pages
 
         }
 
+
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-
+                Debug.WriteLine("Modelstate invalid");
                 users = _repository.GetAll();
                 return Page();
             }
-            NewUser.Password = BCrypt.Net.BCrypt.HashPassword(NewUser.Password, salt);
-            _repository.Add(NewUser);
-            return RedirectToPage();
+            try
+            {
+
+                //Hash password før indsættelse
+                NewUser.Password = BCrypt.Net.BCrypt.HashPassword(NewUser.Password, salt);
+
+                Debug.WriteLine($"User data: {JsonConvert.SerializeObject(NewUser)}");
+                //Tilføj brugeren via repositoriet
+                _repository.Add(NewUser);
+
+                //Redirect ved succes
+                return RedirectToPage();
+            }
+            catch (UserValidationException ex)
+            {
+                Debug.WriteLine($"Validation error: {ex.Message}");
+                throw;
+            }
+            catch (DbUpdateException ex)
+            {
+                Debug.WriteLine($"DbUpdateException: {ex.InnerException?.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //Debug.WriteLine($"Valideringsfejl i OnPost: {ex.Message}");
+                //ModelState.AddModelError(string.Empty, ex.Message); // Tilføj fejlbesked til ModelState
+                users = _repository.GetAll();
+                return Page();
+            }
+
         }
 
         public IActionResult OnPostDelete(int UserId)
@@ -52,5 +84,6 @@ namespace BrewBuddy.Pages
             _repository.Delete(UserId);
             return RedirectToPage();
         }
+
     }
 }

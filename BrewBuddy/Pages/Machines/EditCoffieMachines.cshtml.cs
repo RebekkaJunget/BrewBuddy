@@ -50,28 +50,6 @@ namespace BrewBuddy.Pages.Machines
             return RedirectToPage();
         }
 
-        //public IActionResult OnPostUpdate()
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        coffieMachines = _repository.GetAll();
-        //        return Page();
-        //    }
-        //    _repository.Update(UpdatedMachine);
-        //    return RedirectToPage();
-        //}
-
-        //public IActionResult OnPostSelectForUpdate(int MachineId)
-        //{
-        //    var machine = _repository.GetAll().FirstOrDefault(m => m.MachineId == MachineId);
-
-        //    if (machine != null)
-        //    {
-        //        UpdatedMachine = machine;
-        //    }
-
-        //    coffieMachines = _repository.GetAll();
-        //    return Page();
-        //}
+    
     }
 }

@@ -19,8 +19,6 @@ public partial class BrewBuddyContext : DbContext
 
     public virtual DbSet<CoffieMachine> CoffieMachines { get; set; }
 
-    public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
-
     public virtual DbSet<Statistik> Statistiks { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -31,9 +29,19 @@ public partial class BrewBuddyContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>(builder =>
+        {
+            builder.Property(u => u.RegistrationDate)
+       .HasColumnType("datetime")
+       .ValueGeneratedOnAdd()
+       .Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
+
+        });
         modelBuilder.Entity<Assignment>(entity =>
         {
-            entity.HasKey(e => e.AssignmentId).HasName("PK__Assignme__32499E7788CAAF31");
+            entity.HasKey(e => e.AssignmentId).HasName("PK__Assignme__32499E778F545D22");
 
             entity.ToTable(tb =>
                 {
@@ -52,34 +60,22 @@ public partial class BrewBuddyContext : DbContext
 
             entity.HasOne(d => d.Machine).WithMany(p => p.Assignments)
                 .HasForeignKey(d => d.MachineId)
-                .HasConstraintName("FK__Assignmen__Machi__2E1BDC42");
+                .HasConstraintName("FK__Assignmen__Machi__30F848ED");
 
             entity.HasOne(d => d.User).WithMany(p => p.Assignments)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Assignmen__UserI__2F10007B");
+                .HasConstraintName("FK__Assignmen__UserI__31EC6D26");
         });
 
         modelBuilder.Entity<CoffieMachine>(entity =>
         {
-            entity.HasKey(e => e.MachineId).HasName("PK__CoffieMa__44EE5B38B1D10573");
+            entity.HasKey(e => e.MachineId).HasName("PK__CoffieMa__44EE5B383BFF88B4");
 
             entity.ToTable("CoffieMachine");
 
             entity.Property(e => e.Location).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<ErrorLog>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("ErrorLog");
-
-            entity.Property(e => e.ErrorDateTime)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.LogId).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<Statistik>(entity =>
@@ -96,8 +92,9 @@ public partial class BrewBuddyContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CF3866065");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C4F027DBC");
 
+            entity.Property(e => e.BirthDate).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
@@ -107,6 +104,8 @@ public partial class BrewBuddyContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Role).HasMaxLength(10);
+
+
         });
 
         OnModelCreatingPartial(modelBuilder);

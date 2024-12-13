@@ -25,7 +25,7 @@ public partial class Assignment
 
     public DateTime? FinishedDateAndTime { get; set; }
 
-    public virtual CoffieMachine? Machine { get; set; } 
+    public virtual CoffieMachine Machine { get; set; } = null!;
 
     public virtual User? User { get; set; }
 }
